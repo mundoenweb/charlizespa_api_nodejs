@@ -40,11 +40,20 @@ const createTratament = (data) => {
 }
 
 const deleteTratamentDB = (id) => {
-  return new Promise((resolve, reject) => {
+  return new Promise( async (resolve, reject) => {
     const sql = `DELETE FROM services WHERE id=${id}`
+
+    const tratament = await oneTratamentById(id)
     connectDB.query(sql, (err, result) => {
       if (err) return reject(err)
-      resolve(result)
+
+      let pathImageOld = ''
+      try {
+        pathImageOld = tratament[0].image
+      } catch (error) {
+        
+      }
+      resolve(pathImageOld)
     })
   })
 }
