@@ -6,9 +6,10 @@ const {
   allTrataments,
   oneTratamentById,
   createTratament,
-  deleteTratamentDB
+  deleteTratamentDB,
+  updateTratamentDB
 } = require('./tratamentsModel')
-const { handlerDataCreateTratament } = require('./utils/handlerData')
+const { handlerDataCreateTratament, handlerDataUpdateTratament } = require('./utils/handlerData')
 
 const getAllTrataments = (req, res, next) => {
   allTrataments()
@@ -32,7 +33,7 @@ const getAllTratamentsWeb = (req, res, next) => {
 const getATratamentById = (req, res, next) => {
 
   const id = parseInt(req.params.id, 10)
-  if (!id) next(createError(400, 'favor pase un id valido en la url'))
+  if (!id) return next(createError(400, 'favor pase un id valido en la url'))
 
   oneTratamentById(id)
     .then(tratament => {
@@ -65,6 +66,32 @@ const postCreateTratament = async (req, res, next) => {
   
 }
 
+const updateTratament = async (req, res, next) => {
+  const id = parseInt(req.params.id, 10)
+  let data = req.body
+  const image = req.files?.image
+
+  const errorData = await handlerDataUpdateTratament(data)
+  if(errorData && !image) return next(createError(400, errorData))
+  if (!id) return next(createError(400, 'favor pase un id valido en la url'))
+
+  if (image) {
+    await handlerMoveImage(image, 'trataments')
+    data.image = image.pathDB
+  }
+  
+  updateTratamentDB(data, id)
+  .then(({ response, pathImageOld }) => {
+    const msg = 'tratamiento actualizado con exito'
+    handlerDeleteFile(pathImageOld)
+    handlerResponse(res, response, 200, msg)
+  })
+  .catch(err => {
+    next(createError(500, err))
+  })
+  
+}
+
 const deleteTratament = (req, res, next) => {
   const id = parseInt(req.params.id, 10)
   if (!id) return next(createError(400, 'favor pase un id valido en la url'))
@@ -86,5 +113,6 @@ module.exports = {
   getAllTratamentsWeb,
   getATratamentById,
   postCreateTratament,
+  updateTratament,
   deleteTratament
 }
