@@ -29,18 +29,44 @@ const createTratament = (data) => {
     connectDB.query(sql, data, (err, result) => {
       if (err) return reject(err)
       oneTratamentById(result.insertId)
-      .then(res => {
-        resolve(res)
-      })
-      .catch(() => {
-        resolve([{id: result.insertId}])
-      })
+        .then(res => {
+          resolve(res)
+        })
+        .catch(() => {
+          resolve([{ id: result.insertId }])
+        })
+    })
+  })
+}
+
+const updateTratamentDB = (data, id) => {
+  return new Promise(async (resolve, reject) => {
+
+    const sql = `UPDATE services 
+    SET ?, updated_at = now() 
+    WHERE id=${id}`
+
+    let pathImageOld = ''
+    try {
+      const tratament = await oneTratamentById(id)
+      pathImageOld = tratament[0].image
+    } catch { }
+
+    connectDB.query(sql, data, (err, result) => {
+      if (err) return reject(err)
+      oneTratamentById(id)
+        .then(res => {
+          resolve({ res, pathImageOld })
+        })
+        .catch(() => {
+          resolve([{ id: result.insertId }])
+        })
     })
   })
 }
 
 const deleteTratamentDB = (id) => {
-  return new Promise( async (resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const sql = `DELETE FROM services WHERE id=${id}`
 
     const tratament = await oneTratamentById(id)
@@ -51,7 +77,7 @@ const deleteTratamentDB = (id) => {
       try {
         pathImageOld = tratament[0].image
       } catch (error) {
-        
+
       }
       resolve(pathImageOld)
     })
@@ -62,5 +88,6 @@ module.exports = {
   allTrataments,
   oneTratamentById,
   createTratament,
+  updateTratamentDB,
   deleteTratamentDB
 }
