@@ -1,7 +1,12 @@
 const createError = require('http-errors')
 
 const error404 = (req, res, next) => {
-    next(createError(404, 'pagina no encontrada'))
+  const error = {
+    path: req.path,
+    method: req.method,
+    msg: 'ruta o metodo invalido'
+  }
+    next(createError(404, error))
 }
 
 const handlerErrors = (err, req, res, next) => {
