@@ -23,12 +23,12 @@ const modeleGetAService = (id) => {
   })
 }
 
-const createTratament = (data) => {
+const modeleCreateService = (data) => {
   return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO services SET ?, created_at = now()'
+    const sql = 'INSERT INTO subservices SET ?, created_at = now()'
     connectDB.query(sql, data, (err, result) => {
       if (err) return reject(err)
-      oneTratamentById(result.insertId)
+      modeleGetAService(result.insertId)
         .then(res => {
           resolve(res)
         })
@@ -86,5 +86,6 @@ const deleteTratamentDB = (id) => {
 
 module.exports = {
   modelegetAllServices,
-  modeleGetAService
+  modeleGetAService,
+  modeleCreateService
 }
