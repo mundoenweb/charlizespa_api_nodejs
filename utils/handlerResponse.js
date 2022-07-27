@@ -1,4 +1,4 @@
-const handlerResponse = (res, data, code, message = 'consulta exitosa') => {
+const handlerResponse = (res, data = [], code, message = 'consulta exitosa') => {
   const objectResponse = {
     data,
     message,
