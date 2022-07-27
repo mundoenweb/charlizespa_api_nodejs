@@ -4,7 +4,8 @@ const { handlerResponse } = require('../../utils/handlerResponse')
 const {
   allTrataments,
   oneTratamentById,
-  createTratament
+  createTratament,
+  deleteTratamentDB
 } = require('./tratamentsModel')
 const { handlerDataCreateTratament } = require('./utils/handlerData')
 
@@ -63,9 +64,24 @@ const postCreateTratament = async (req, res, next) => {
   
 }
 
+const deleteTratament = (req, res, next) => {
+  const id = parseInt(req.params.id, 10)
+  if (!id) return next(createError(400, 'favor pase un id valido en la url'))
+
+  deleteTratamentDB(id)
+  .then(()=> {
+    const msg = 'tratamiento eliminado correctamente'
+    handlerResponse(res, null, 200, msg)
+  })
+  .catch(() => {
+    next(createError(500, 'error al eliminar el tratamiento'))
+  })
+}
+
 module.exports = {
   getAllTrataments,
   getAllTratamentsWeb,
   getATratamentById,
-  postCreateTratament
+  postCreateTratament,
+  deleteTratament
 }
