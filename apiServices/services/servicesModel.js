@@ -39,27 +39,27 @@ const modeleCreateService = (data) => {
   })
 }
 
-const updateTratamentDB = (data, id) => {
+const modeleUpdateService = (data, id) => {
   return new Promise(async (resolve, reject) => {
 
-    const sql = `UPDATE services 
+    const sql = `UPDATE subservices 
     SET ?, updated_at = now() 
     WHERE id=${id}`
 
     let pathImageOld = ''
     try {
-      const tratament = await oneTratamentById(id)
-      pathImageOld = tratament[0].image
+      const service = await modeleGetAService(id)
+      pathImageOld = service[0].image
     } catch { }
 
     connectDB.query(sql, data, (err, result) => {
       if (err) return reject(err)
-      oneTratamentById(id)
-        .then(res => {
-          resolve({ res, pathImageOld })
+      modeleGetAService(id)
+        .then(response => {
+          resolve({ response, pathImageOld })
         })
         .catch(() => {
-          resolve([{ id: result.insertId }])
+          resolve([{ id: result.insertId, pathImageOld }])
         })
     })
   })
@@ -87,5 +87,6 @@ const deleteTratamentDB = (id) => {
 module.exports = {
   modelegetAllServices,
   modeleGetAService,
-  modeleCreateService
+  modeleCreateService,
+  modeleUpdateService
 }
