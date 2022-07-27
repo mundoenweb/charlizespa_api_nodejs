@@ -4,7 +4,7 @@ const modelegetAllServices = (web) => {
   return new Promise((resolve, reject) => {
 
     let sql = 'SELECT * FROM subservices'
-    if (web) sql = 'SELECT * FROM services WHERE status = 1'
+    if (web) sql = 'SELECT * FROM subservices WHERE status = 1'
 
     connectDB.query(sql, (err, result) => {
       if (err) return reject(err)
