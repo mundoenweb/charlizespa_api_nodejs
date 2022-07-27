@@ -5,12 +5,15 @@ const {
     getAllTratamentsWeb,
     getATratamentById,
     postCreateTratament,
-    deleteTratament
+    deleteTratament,
+    updateTratament
 } = require('./controller')
 
 router.get('/', getAllTrataments)
 router.get('/web', getAllTratamentsWeb)
 router.get('/:id', getATratamentById)
+
+router.put('/', updateTratament)
 
 router.post('/', postCreateTratament)
 router.delete('/:id', deleteTratament)
