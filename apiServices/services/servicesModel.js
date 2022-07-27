@@ -65,20 +65,19 @@ const modeleUpdateService = (data, id) => {
   })
 }
 
-const deleteTratamentDB = (id) => {
+const modeleDeleteService = (id) => {
   return new Promise(async (resolve, reject) => {
-    const sql = `DELETE FROM services WHERE id=${id}`
+    const sql = `DELETE FROM subservices WHERE id=${id}`
 
-    const tratament = await oneTratamentById(id)
-    connectDB.query(sql, (err, result) => {
+    const service = await modeleGetAService(id)
+    connectDB.query(sql, (err, _) => {
       if (err) return reject(err)
 
       let pathImageOld = ''
       try {
-        pathImageOld = tratament[0].image
-      } catch (error) {
-
-      }
+        pathImageOld = service[0].image
+      } catch {}
+      
       resolve(pathImageOld)
     })
   })
@@ -88,5 +87,6 @@ module.exports = {
   modelegetAllServices,
   modeleGetAService,
   modeleCreateService,
-  modeleUpdateService
+  modeleUpdateService,
+  modeleDeleteService
 }
