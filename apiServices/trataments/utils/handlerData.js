@@ -17,6 +17,18 @@ const handlerDataCreateTratament = (data, image) => {
   })
 }
 
+const handlerDataUpdateTratament = (data) => {
+  return new Promise((resolve, _) => {
+
+    if (!Object.entries(data).length) {
+      return resolve('favor envie los datos a actualizar')
+    }
+
+    return resolve(null)
+  })
+}
+
 module.exports = {
-  handlerDataCreateTratament
+  handlerDataCreateTratament,
+  handlerDataUpdateTratament
 }
