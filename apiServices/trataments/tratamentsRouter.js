@@ -4,7 +4,8 @@ const {
     getAllTrataments,
     getAllTratamentsWeb,
     getATratamentById,
-    postCreateTratament
+    postCreateTratament,
+    deleteTratament
 } = require('./controller')
 
 router.get('/', getAllTrataments)
@@ -12,6 +13,7 @@ router.get('/web', getAllTratamentsWeb)
 router.get('/:id', getATratamentById)
 
 router.post('/', postCreateTratament)
+router.delete('/:id', deleteTratament)
 
 
 module.exports = router
