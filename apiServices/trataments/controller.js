@@ -1,4 +1,5 @@
 const createError = require('http-errors')
+const { handlerDeleteFile } = require('../../utils/handlerDeleteFile')
 const { handlerMoveImage } = require('../../utils/handlerMoveImage')
 const { handlerResponse } = require('../../utils/handlerResponse')
 const {
@@ -69,8 +70,10 @@ const deleteTratament = (req, res, next) => {
   if (!id) return next(createError(400, 'favor pase un id valido en la url'))
 
   deleteTratamentDB(id)
-  .then(()=> {
+  .then((pathImageOld)=> {
     const msg = 'tratamiento eliminado correctamente'
+
+    handlerDeleteFile(pathImageOld)
     handlerResponse(res, null, 200, msg)
   })
   .catch(() => {
