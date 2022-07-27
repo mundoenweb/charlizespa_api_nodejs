@@ -39,8 +39,19 @@ const createTratament = (data) => {
   })
 }
 
+const deleteTratamentDB = (id) => {
+  return new Promise((resolve, reject) => {
+    const sql = `DELETE FROM services WHERE id=${id}`
+    connectDB.query(sql, (err, result) => {
+      if (err) return reject(err)
+      resolve(result)
+    })
+  })
+}
+
 module.exports = {
   allTrataments,
   oneTratamentById,
-  createTratament
+  createTratament,
+  deleteTratamentDB
 }
