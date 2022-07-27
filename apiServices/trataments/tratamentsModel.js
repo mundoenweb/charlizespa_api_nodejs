@@ -55,8 +55,8 @@ const updateTratamentDB = (data, id) => {
     connectDB.query(sql, data, (err, result) => {
       if (err) return reject(err)
       oneTratamentById(id)
-        .then(res => {
-          resolve({ res, pathImageOld })
+        .then(response => {
+          resolve({ response, pathImageOld })
         })
         .catch(() => {
           resolve([{ id: result.insertId }])
