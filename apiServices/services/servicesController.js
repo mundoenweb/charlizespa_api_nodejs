@@ -8,6 +8,16 @@ const {
 
 const getAllServices = (req, res, next) => {
   modelegetAllServices()
+    .then(services => {
+      handlerResponse(res, services, 200)
+    })
+    .catch(err => {
+      next(createError(500, err))
+    })
+}
+
+const getAllServicesWeb = (req, res, next) => {
+  modelegetAllServices('web')
     .then(trataments => {
       handlerResponse(res, trataments, 200)
     })
@@ -17,5 +27,6 @@ const getAllServices = (req, res, next) => {
 }
 
 module.exports = {
-  getAllServices
+  getAllServices,
+  getAllServicesWeb
 }
