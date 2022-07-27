@@ -13,8 +13,8 @@ const modelegetAllServices = (web) => {
   })
 }
 
-const oneTratamentById = (id) => {
-  const sql = `SELECT * FROM services WHERE id = ${id}`
+const modeleGetAService = (id) => {
+  const sql = `SELECT * FROM subservices WHERE id = ${id}`
   return new Promise((resolve, reject) => {
     connectDB.query(sql, (err, result) => {
       if (err) return reject(err)
@@ -85,5 +85,6 @@ const deleteTratamentDB = (id) => {
 }
 
 module.exports = {
-  modelegetAllServices
+  modelegetAllServices,
+  modeleGetAService
 }
