@@ -13,8 +13,7 @@ router.get('/', getAllTrataments)
 router.get('/web', getAllTratamentsWeb)
 router.get('/:id', getATratamentById)
 
-router.put('/', updateTratament)
-
+router.put('/:id', updateTratament)
 router.post('/', postCreateTratament)
 router.delete('/:id', deleteTratament)
 
