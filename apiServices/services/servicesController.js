@@ -3,7 +3,7 @@ const { handlerDeleteFile } = require('../../utils/handlerDeleteFile')
 const { handlerMoveImage } = require('../../utils/handlerMoveImage')
 const { handlerResponse } = require('../../utils/handlerResponse')
 const {
-  modelegetAllServices
+  modelegetAllServices, modeleGetAService
 } = require('./servicesModel')
 
 const getAllServices = (req, res, next) => {
@@ -26,7 +26,22 @@ const getAllServicesWeb = (req, res, next) => {
     })
 }
 
+const getAService = (req, res, next) => {
+
+  const id = parseInt(req.params.id, 10)
+  if (!id) return next(createError(400, 'favor pase un id valido en la url'))
+
+  modeleGetAService(id)
+    .then(service => {
+      handlerResponse(res, service, 200)
+    })
+    .catch(err => {
+      next(createError(500, err))
+    })
+}
+
 module.exports = {
   getAllServices,
-  getAllServicesWeb
+  getAllServicesWeb,
+  getAService
 }
