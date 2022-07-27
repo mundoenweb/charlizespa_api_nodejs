@@ -23,7 +23,24 @@ const oneTratamentById = (id) => {
   })
 }
 
+const createTratament = (data) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'INSERT INTO services SET ?, created_at = now()'
+    connectDB.query(sql, data, (err, result) => {
+      if (err) return reject(err)
+      oneTratamentById(result.insertId)
+      .then(res => {
+        resolve(res)
+      })
+      .catch(() => {
+        resolve([{id: result.insertId}])
+      })
+    })
+  })
+}
+
 module.exports = {
   allTrataments,
-  oneTratamentById
+  oneTratamentById,
+  createTratament
 }
