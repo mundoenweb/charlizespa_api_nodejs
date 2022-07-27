@@ -4,7 +4,8 @@ const {
   getAllServices,
   getAllServicesWeb,
   getAService,
-  createService
+  createService,
+  updateService
 } = require('./servicesController')
 
 router.get('/', getAllServices) // obtiene todos los servicios
@@ -12,7 +13,7 @@ router.get('/web', getAllServicesWeb) // obtiene todos los servicios menos los a
 router.get('/:id', getAService) //obtiene un servicio
 
 router.post('/', createService) // crea un servicio
-router.put('/:id') // actualiza un servicio
+router.put('/:id', updateService) // actualiza un servicio
 router.delete('/:id') // elimina un servicio
 
 

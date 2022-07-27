@@ -3,9 +3,9 @@ const { handlerDeleteFile } = require('../../utils/handlerDeleteFile')
 const { handlerMoveImage } = require('../../utils/handlerMoveImage')
 const { handlerResponse } = require('../../utils/handlerResponse')
 const {
-  modelegetAllServices, modeleGetAService, modeleCreateService
+  modelegetAllServices, modeleGetAService, modeleCreateService, modeleUpdateService
 } = require('./servicesModel')
-const { handlerDataCreateService } = require('./utils/handlerData')
+const { handlerDataCreateService, handlerDataUpdateService } = require('./utils/handlerData')
 
 const getAllServices = (req, res, next) => {
   modelegetAllServices()
@@ -63,9 +63,38 @@ const createService = async (req, res, next) => {
   
 }
 
+const updateService = async (req, res, next) => {
+  const id = parseInt(req.params.id, 10)
+  let data = req.body
+  const image = req.files?.image
+
+  console.log(data)
+
+  const errorData = await handlerDataUpdateService(data)
+  if(errorData && !image) return next(createError(400, errorData))
+  if (!id) return next(createError(400, 'favor pase un id valido en la url'))
+
+  if (image) {
+    await handlerMoveImage(image, 'services')
+    data.image = image.pathDB
+  }
+  
+  modeleUpdateService(data, id)
+  .then(({response, pathImageOld}) => {
+    const msg = 'servicio actualizado con exito'
+    handlerDeleteFile(pathImageOld)
+    handlerResponse(res, response, 200, msg)
+  })
+  .catch(err => {
+    next(createError(500, err))
+  })
+  
+}
+
 module.exports = {
   getAllServices,
   getAllServicesWeb,
   getAService,
-  createService
+  createService,
+  updateService
 }
