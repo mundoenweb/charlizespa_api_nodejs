@@ -5,7 +5,8 @@ const {
   getAllServicesWeb,
   getAService,
   createService,
-  updateService
+  updateService,
+  deleteService
 } = require('./servicesController')
 
 router.get('/', getAllServices) // obtiene todos los servicios
@@ -14,7 +15,7 @@ router.get('/:id', getAService) //obtiene un servicio
 
 router.post('/', createService) // crea un servicio
 router.put('/:id', updateService) // actualiza un servicio
-router.delete('/:id') // elimina un servicio
+router.delete('/:id', deleteService) // elimina un servicio
 
 
 module.exports = router

@@ -3,7 +3,7 @@ const { handlerDeleteFile } = require('../../utils/handlerDeleteFile')
 const { handlerMoveImage } = require('../../utils/handlerMoveImage')
 const { handlerResponse } = require('../../utils/handlerResponse')
 const {
-  modelegetAllServices, modeleGetAService, modeleCreateService, modeleUpdateService
+  modelegetAllServices, modeleGetAService, modeleCreateService, modeleUpdateService, modeleDeleteService
 } = require('./servicesModel')
 const { handlerDataCreateService, handlerDataUpdateService } = require('./utils/handlerData')
 
@@ -91,10 +91,27 @@ const updateService = async (req, res, next) => {
   
 }
 
+const deleteService = (req, res, next) => {
+  const id = parseInt(req.params.id, 10)
+  if (!id) return next(createError(400, 'favor pase un id valido en la url'))
+
+  modeleDeleteService(id)
+  .then((pathImageOld)=> {
+    const msg = 'servicio eliminado correctamente'
+
+    handlerDeleteFile(pathImageOld)
+    handlerResponse(res, null, 200, msg)
+  })
+  .catch(() => {
+    next(createError(500, 'error al eliminar el servicio'))
+  })
+}
+
 module.exports = {
   getAllServices,
   getAllServicesWeb,
   getAService,
   createService,
-  updateService
+  updateService,
+  deleteService
 }
