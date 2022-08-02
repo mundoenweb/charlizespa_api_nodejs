@@ -1,9 +1,11 @@
 {
-  "name": "api-nodejs",
+  "name": "api_charlizespa",
   "version": "0.0.0",
+  "autor": "tuemprende.com",
+  "dev": "rommer@tuemprende.com",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "serve": "node ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
