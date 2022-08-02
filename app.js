@@ -16,6 +16,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(fileUpload())
 
 app.use(routes)
+
+// middlewares
 app.use(error404)
 app.use(handlerErrors)
 
